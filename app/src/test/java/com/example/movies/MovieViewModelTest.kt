@@ -7,13 +7,13 @@ import androidx.paging.PagingConfig
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.example.movies.data.MoviePagingSource
 import com.example.movies.data.MovieRepository
-import com.example.movies.data.PAGE_SIZE
+import com.example.movies.model.API_KEY
 import com.example.movies.model.API_QUERY_CATEGORY
 import com.example.movies.model.MovieResponse
-import com.example.movies.net.API_KEY
+import com.example.movies.model.PAGE_SIZE
 import com.example.movies.net.Webservice
-import com.example.movies.ui.main.MovieAdapter
-import com.example.movies.ui.main.MovieListViewModel
+import com.example.movies.ui.list.MovieListAdapter
+import com.example.movies.ui.shared.MovieViewModel
 import com.example.movies.utils.MovieFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,7 +27,7 @@ import org.junit.*
 import org.mockito.Mockito
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class MovieListViewModelTest {
+class MovieViewModelTest {
 
     @Rule
     @JvmField
@@ -53,11 +53,11 @@ class MovieListViewModelTest {
     @Test
     fun `click movie detail`() {
         val dummyMovie = MovieFactory().createDummyMovie()
-        val movieViewModel = MovieListViewModel(Mockito.mock(MovieRepository::class.java))
+        val movieViewModel = MovieViewModel(Mockito.mock(MovieRepository::class.java))
         movieViewModel.onClickMovie(dummyMovie)
 
         val expected = dummyMovie.id
-        val actual = movieViewModel.movieDetail.value?.getContentIfNotHandled()?.id
+        val actual = movieViewModel.selectedMovie.value?.id
         Assert.assertEquals(expected, actual)
     }
 
@@ -80,7 +80,7 @@ class MovieListViewModelTest {
 
         // mock movieRepository for create MovieListViewModel.
         val mockRepo = Mockito.mock(MovieRepository::class.java)
-        Mockito.`when`(mockRepo.getMovieListStream(API_QUERY_CATEGORY, null)).thenReturn(
+        Mockito.`when`(mockRepo.getMovieListStream(API_QUERY_CATEGORY)).thenReturn(
             Pager(
                 config = PagingConfig(
                     pageSize = PAGE_SIZE,
@@ -90,10 +90,10 @@ class MovieListViewModelTest {
             ).flow
         )
 
-        val movieViewModel = MovieListViewModel(mockRepo)
+        val movieViewModel = MovieViewModel(mockRepo)
 
         val differ = AsyncPagingDataDiffer(
-            diffCallback = MovieAdapter.MOVIE_COMPARATOR,
+            diffCallback = MovieListAdapter.MOVIE_COMPARATOR,
             updateCallback = noopListUpdateCallback,
             mainDispatcher = testDispatcher,
             workerDispatcher = testDispatcher,

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/movieListFragment"
-        android:name="com.example.movies.ui.main.MovieListFragment"
+        android:name="com.example.movies.ui.list.MovieListFragment"
         android:label="Movies"
         tools:layout="@layout/movie_list_fragment">
 
@@ -30,9 +30,6 @@
             android:name="title"
             app:argType="string" />
 
-        <argument
-            android:name="movie"
-            app:argType="com.example.movies.model.Movie" />
 
     </fragment>
 </navigation>

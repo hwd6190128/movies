@@ -1,20 +1,12 @@
-package com.example.movies.ui.main
+package com.example.movies.ui.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movies.R
-import com.example.movies.databinding.ItemFooterProgressBinding
 import com.example.movies.databinding.ItemMovieBinding
+import com.example.movies.ui.shared.MovieViewModel
 
-/**
- * @ClassName: MovieViewHolder
- * @Description:
- * @Date: 2021/7/26 00:47
- * @History:
- * <date> <version> <desc>
- */
-class MovieViewHolder(binding: ItemMovieBinding, viewModel: MovieListViewModel) :
+class MovieListViewHolder(binding: ItemMovieBinding, viewModel: MovieViewModel) :
     RecyclerView.ViewHolder(binding.root) {
 
     internal var itemMoviesBinding: ItemMovieBinding? = binding
@@ -24,13 +16,13 @@ class MovieViewHolder(binding: ItemMovieBinding, viewModel: MovieListViewModel) 
     }
 
     companion object {
-        fun create(parent: ViewGroup, viewModel: MovieListViewModel): MovieViewHolder {
+        fun create(parent: ViewGroup, viewModel: MovieViewModel): MovieListViewHolder {
             val binding = ItemMovieBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
-            return MovieViewHolder(binding, viewModel)
+            return MovieListViewHolder(binding, viewModel)
         }
     }
 }

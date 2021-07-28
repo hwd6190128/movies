@@ -22,6 +22,12 @@ val GENRES = mapOf(
     37 to "Western",
 )
 
+const val API_KEY = "6753d9119b9627493ae129f3c3c99151"
 const val API_QUERY_CATEGORY = "Superman"
+const val INIT_PAGE_INDEX = 1
+const val PAGE_SIZE = 20
+
+const val POSTER_WIDTH_92 = "/w92"
+const val POSTER_WIDTH_500 = "/w500"
 
 

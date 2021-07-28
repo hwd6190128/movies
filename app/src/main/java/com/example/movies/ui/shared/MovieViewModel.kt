@@ -1,6 +1,5 @@
-package com.example.movies.ui.main
+package com.example.movies.ui.shared
 
-import android.os.Parcelable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -15,33 +14,30 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieListViewModel @Inject constructor(
+class MovieViewModel @Inject constructor(
     private val repository: MovieRepository
 ) : BaseViewModel() {
 
     private var currentCategoryResult: Flow<PagingData<Movie>>? = null
-    var currentCategory: String = API_QUERY_CATEGORY
-    val movieDetail = MutableLiveData<LiveDataEvent<Movie>>()
-    var state: Parcelable? = null
-    var prevKey: Int? = null
+    private var currentCategory: String = API_QUERY_CATEGORY
+    val actionToDetail = MutableLiveData<LiveDataEvent<String>>()
+    var selectedMovie = MutableLiveData<Movie>()
 
-    fun getMovieList(
-        categoryStr: String = currentCategory
-    ): Flow<PagingData<Movie>> {
+    fun getMovieList(categoryStr: String = currentCategory): Flow<PagingData<Movie>> {
         val lastResult = currentCategoryResult
         if (categoryStr == currentCategory && lastResult != null) {
             return lastResult
         }
         currentCategory = categoryStr
-        val newResult: Flow<PagingData<Movie>> = repository.getMovieListStream(categoryStr, prevKey)
-            .cachedIn(viewModelScope) // must call after map or filter operations to ensure trigger data
-        currentCategoryResult = newResult
-        return newResult
+
+        // must call cachedIn after map or filter operations to ensure trigger data.
+        return repository.getMovieListStream(categoryStr).cachedIn(viewModelScope).apply {
+            currentCategoryResult = this
+        }
     }
 
     fun onClickMovie(movie: Movie) {
-        movie.apply {
-            movieDetail.value = LiveDataEvent(movie)
-        }
+        selectedMovie.value = movie
+        actionToDetail.value = LiveDataEvent(currentCategory)
     }
 }

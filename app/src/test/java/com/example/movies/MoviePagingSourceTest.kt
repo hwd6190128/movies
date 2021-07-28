@@ -2,9 +2,9 @@ package com.example.movies
 
 import androidx.paging.PagingSource
 import com.example.movies.data.MoviePagingSource
+import com.example.movies.model.API_KEY
 import com.example.movies.model.API_QUERY_CATEGORY
 import com.example.movies.model.MovieResponse
-import com.example.movies.net.API_KEY
 import com.example.movies.net.Webservice
 import com.example.movies.utils.MovieFactory
 import kotlinx.coroutines.Dispatchers

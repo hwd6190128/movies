@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="16dp"
-            tools:context=".ui.main.MovieListFragment">
+            tools:context=".ui.list.MovieListFragment">
 
             <com.google.android.flexbox.FlexboxLayout
                 android:id="@+id/rv_genres"
@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 app:flexWrap="wrap"
-                app:genres="@{vm.movie.genreIds}"
+                app:genres="@{vm.selectedMovie.genreIds}"
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintStart_toStartOf="@+id/tv_title"
                 app:layout_constraintTop_toBottomOf="@id/iv_backdrop" />
@@ -30,7 +30,8 @@
                 android:layout_width="0dp"
                 android:layout_height="240dp"
                 android:layout_marginTop="16dp"
-                app:backdrop="@{vm.movie.backdropPath}"
+                android:contentDescription="@string/app_name"
+                app:backdrop="@{vm.selectedMovie.backdropPath}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_info" />
@@ -40,7 +41,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{vm.movie.info}"
+                android:text="@{vm.selectedMovie.info}"
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintStart_toStartOf="@+id/tv_title"
                 app:layout_constraintTop_toBottomOf="@+id/tv_original_title" />
@@ -50,7 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:text="@{vm.movie.title}"
+                android:text="@{vm.selectedMovie.title}"
                 android:textColor="@android:color/white"
                 android:textSize="26sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +62,7 @@
                 android:id="@+id/tv_original_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{vm.movie.prefixOriginalTitle}"
+                android:text="@{vm.selectedMovie.prefixOriginalTitle}"
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintStart_toStartOf="@+id/tv_title"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title" />
@@ -72,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:lineSpacingMultiplier="1.2"
-                android:text="@{vm.movie.overview}"
+                android:text="@{vm.selectedMovie.overview}"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/tv_title"
@@ -86,7 +87,7 @@
                 android:layout_marginTop="24dp"
                 android:drawablePadding="4dp"
                 android:gravity="start|center_vertical"
-                android:text="@{vm.movie.ranking}"
+                android:text="@{vm.selectedMovie.ranking}"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -100,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:gravity="center"
-                android:text="@{vm.movie.rankingSuffix}"
+                android:text="@{vm.selectedMovie.rankingSuffix}"
                 app:layout_constraintBottom_toBottomOf="@id/tv_ranking"
                 app:layout_constraintStart_toEndOf="@id/tv_ranking"
                 app:layout_constraintTop_toTopOf="@+id/tv_ranking" />
@@ -113,7 +114,7 @@
                 android:layout_marginLeft="12dp"
                 android:drawablePadding="4dp"
                 android:gravity="start|center_vertical"
-                android:text="@{vm.movie.popularIdx}"
+                android:text="@{vm.selectedMovie.popularIdx}"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 app:drawableLeftCompat="@drawable/baseline_local_fire_department_white_20"
@@ -130,7 +131,7 @@
 
         <variable
             name="vm"
-            type="com.example.movies.ui.detail.MovieDetailViewModel" />
+            type="com.example.movies.ui.shared.MovieViewModel" />
     </data>
 
 </layout>

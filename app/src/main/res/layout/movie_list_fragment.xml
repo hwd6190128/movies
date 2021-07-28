@@ -7,7 +7,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.MovieListFragment">
+        tools:context=".ui.list.MovieListFragment">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
@@ -28,16 +28,15 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-
         <TextView
             android:id="@+id/emptyList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/no_results"
+            android:textColor="@color/white"
             android:textSize="24sp"
             android:visibility="visible"
-            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,6 +51,6 @@
 
         <variable
             name="vm"
-            type="com.example.movies.ui.main.MovieListViewModel" />
+            type="com.example.movies.ui.shared.MovieViewModel" />
     </data>
 </layout>

@@ -1,4 +1,4 @@
-package com.example.movies.ui.main
+package com.example.movies.ui.shared
 
 import android.content.Context
 import android.util.TypedValue
@@ -13,12 +13,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.movies.R
 import com.example.movies.model.GENRES
+import com.example.movies.model.POSTER_WIDTH_500
+import com.example.movies.model.POSTER_WIDTH_92
 import com.example.movies.net.POSTER_URL
 import com.google.android.flexbox.FlexboxLayout
-
-
-const val POSTER_WIDTH_92 = "/w92"
-const val POSTER_WIDTH_500 = "/w500"
 
 @BindingAdapter("poster")
 internal fun ImageView.setPoster(path: String?) {

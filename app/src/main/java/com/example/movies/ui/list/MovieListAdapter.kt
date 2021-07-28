@@ -1,14 +1,13 @@
-package com.example.movies.ui.main
+package com.example.movies.ui.list
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.example.movies.databinding.ItemMovieBinding
 import com.example.movies.model.Movie
+import com.example.movies.ui.shared.MovieViewModel
 
-class MovieAdapter(private val mViewModel: MovieListViewModel) :
-    PagingDataAdapter<Movie, MovieViewHolder>(MOVIE_COMPARATOR) {
+class MovieListAdapter(private val viewModel: MovieViewModel) :
+    PagingDataAdapter<Movie, MovieListViewHolder>(MOVIE_COMPARATOR) {
 
     companion object {
         internal val MOVIE_COMPARATOR = object : DiffUtil.ItemCallback<Movie>() {
@@ -20,24 +19,17 @@ class MovieAdapter(private val mViewModel: MovieListViewModel) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        return MovieViewHolder(
-            ItemMovieBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            ), mViewModel
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
+        return MovieListViewHolder.create(parent, viewModel)
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MovieListViewHolder, position: Int) {
         val repoItem = getItem(position)
         if (repoItem != null) {
             holder.itemMoviesBinding?.apply {
                 movie = repoItem
                 executePendingBindings()
             }
-
         }
     }
 }

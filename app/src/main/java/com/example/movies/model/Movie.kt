@@ -1,10 +1,7 @@
 package com.example.movies.model
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class Movie(
     @field:SerializedName("adult") val adult: Boolean,
     @field:SerializedName("backdrop_path") val backdropPath: String,
@@ -20,7 +17,7 @@ data class Movie(
     @field:SerializedName("video") val video: Boolean,
     @field:SerializedName("vote_average") val voteAverage: Double?,
     @field:SerializedName("vote_count") val voteCount: Int?
-) : Parcelable {
+) {
 
     val combineTitle
         get() = if (title == originalTitle || originalTitle.isNullOrEmpty()) title else "$title($originalTitle)"

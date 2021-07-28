@@ -1,10 +1,11 @@
-package com.example.movies.ui.main
+package com.example.movies.ui.list
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movies.R
 import com.example.movies.databinding.ItemFooterProgressBinding
 
 class MovieLoadStateViewHolder(binding: ItemFooterProgressBinding, retry: () -> Unit) :
@@ -12,13 +13,17 @@ class MovieLoadStateViewHolder(binding: ItemFooterProgressBinding, retry: () -> 
 
     internal var footerProgressBinding: ItemFooterProgressBinding = binding
 
-    fun bind(loadState: LoadState) {
+    init {
+        binding.tvErrorMsg.setOnClickListener { retry.invoke() }
+    }
+
+    internal fun bind(loadState: LoadState) {
         footerProgressBinding.apply {
 
             progressBar.visibility = if (loadState is LoadState.Loading) View.VISIBLE else View.GONE
             tvErrorMsg.also {
                 val isError = loadState is LoadState.Error
-                it.text = if (isError) (loadState as LoadState.Error).error.localizedMessage else ""
+                it.text = if (isError) it.context.getString(R.string.error_load_more) else ""
                 it.visibility = if (isError) View.VISIBLE else View.GONE
             }
         }

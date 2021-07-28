@@ -1,22 +1,18 @@
 package com.example.movies.ui.detail
 
-import androidx.navigation.fragment.navArgs
 import com.example.movies.R
 import com.example.movies.base.BaseFragment
 import com.example.movies.databinding.MovieDetailFragmentBinding
+import com.example.movies.ui.shared.MovieViewModel
 
-class MovieDetailFragment : BaseFragment<MovieDetailViewModel, MovieDetailFragmentBinding>() {
-
-    private val args: MovieDetailFragmentArgs by navArgs()
+class MovieDetailFragment : BaseFragment<MovieViewModel, MovieDetailFragmentBinding>() {
 
     override fun getLayoutRes() = R.layout.movie_detail_fragment
 
-    override fun getViewModelClass() = MovieDetailViewModel::class.java
+    override fun getViewModelClass() = MovieViewModel::class.java
 
-    override fun init() {
-        super.init()
-        mBinding.vm = viewModel.apply {
-            args.movie.also { setMovie(it) }
-        }
+    override fun initObserve() {
+        super.initObserve()
+        binding.vm = viewModel
     }
 }
