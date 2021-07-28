@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
 import com.example.movies.base.BaseFragment
 import com.example.movies.databinding.MovieListFragmentBinding
+import com.example.movies.model.API_QUERY_CATEGORY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -41,7 +42,7 @@ class MovieListFragment : BaseFragment<MovieListViewModel, MovieListFragmentBind
 
                     val detailAction =
                         MovieListFragmentDirections.actionMovieListFragmentToDetailFragment(
-                            title = movie.title,
+                            title = currentCategory,
                             movie = movie
                         )
                     navController.navigate(detailAction)
@@ -51,7 +52,7 @@ class MovieListFragment : BaseFragment<MovieListViewModel, MovieListFragmentBind
 
         initSwipeRefresh()
         initAdapter()
-        loadMovies(viewModel.prevKey)
+        loadMovies()
     }
 
     private fun initSwipeRefresh() {
@@ -98,10 +99,10 @@ class MovieListFragment : BaseFragment<MovieListViewModel, MovieListFragmentBind
         }
     }
 
-    private fun loadMovies(prevKey: Int?) {
+    private fun loadMovies(categoryQuery: String = API_QUERY_CATEGORY) {
         job?.cancel()
         job = lifecycleScope.launch {
-            viewModel.getMovieList(prevKey).collectLatest {
+            viewModel.getMovieList(categoryQuery).collectLatest {
                 mBinding.swipeRefresh.isRefreshing = false
                 mAdapter.submitData(it)
             }

@@ -22,4 +22,6 @@ val GENRES = mapOf(
     37 to "Western",
 )
 
+const val API_QUERY_CATEGORY = "Superman"
+
 

@@ -8,8 +8,8 @@ import androidx.paging.cachedIn
 import com.example.movies.base.BaseViewModel
 import com.example.movies.base.LiveDataEvent
 import com.example.movies.data.MovieRepository
+import com.example.movies.model.API_QUERY_CATEGORY
 import com.example.movies.model.Movie
-import com.example.movies.net.API_QUERY_CATEGORY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -19,22 +19,23 @@ class MovieListViewModel @Inject constructor(
     private val repository: MovieRepository
 ) : BaseViewModel() {
 
-    private var currentQueryValue: String? = null
-    private var currentSearchResult: Flow<PagingData<Movie>>? = null
+    private var currentCategoryResult: Flow<PagingData<Movie>>? = null
+    var currentCategory: String = API_QUERY_CATEGORY
     val movieDetail = MutableLiveData<LiveDataEvent<Movie>>()
     var state: Parcelable? = null
     var prevKey: Int? = null
 
-    fun getMovieList(prevKey: Int?, queryStr: String = API_QUERY_CATEGORY): Flow<PagingData<Movie>> {
-        val lastResult = currentSearchResult
-        if (queryStr == currentQueryValue && lastResult != null) {
+    fun getMovieList(
+        categoryStr: String = currentCategory
+    ): Flow<PagingData<Movie>> {
+        val lastResult = currentCategoryResult
+        if (categoryStr == currentCategory && lastResult != null) {
             return lastResult
         }
-        currentQueryValue = queryStr
-        showLoading()
-        val newResult: Flow<PagingData<Movie>> = repository.getMovieListStream(queryStr, prevKey)
+        currentCategory = categoryStr
+        val newResult: Flow<PagingData<Movie>> = repository.getMovieListStream(categoryStr, prevKey)
             .cachedIn(viewModelScope) // must call after map or filter operations to ensure trigger data
-        currentSearchResult = newResult
+        currentCategoryResult = newResult
         return newResult
     }
 
