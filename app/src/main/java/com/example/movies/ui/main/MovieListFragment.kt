@@ -1,7 +1,10 @@
 package com.example.movies.ui.main
 
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavOptions
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
@@ -33,15 +36,6 @@ class MovieListFragment : BaseFragment<MovieListViewModel, MovieListFragmentBind
                 (mBinding.rv.layoutManager as LinearLayoutManager).onRestoreInstanceState(it)
             }
 
-            isLoading.observe(viewLifecycleOwner, { event ->
-                event?.getContentIfNotHandled()?.takeIf { it }?.apply {
-                    // show
-                } ?:{
-                    // dismiss
-                }//todo
-
-            })
-
             movieDetail.observe(viewLifecycleOwner, { event ->
                 event?.getContentIfNotHandled()?.also { movie ->
 
@@ -55,15 +49,52 @@ class MovieListFragment : BaseFragment<MovieListViewModel, MovieListFragmentBind
             })
         }
 
+        initSwipeRefresh()
         initAdapter()
         loadMovies(viewModel.prevKey)
     }
 
+    private fun initSwipeRefresh() {
+        mBinding.swipeRefresh.apply {
+            setOnRefreshListener {
+                mAdapter.refresh()
+            }
+        }
+    }
+
     private fun initAdapter() {
         mAdapter = MovieAdapter(viewModel)
-        mBinding.rv.apply {
-            adapter = mAdapter
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        mBinding.apply {
+            rv.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+
+            mAdapter.addLoadStateListener { state ->
+
+                rv.visibility =
+                    if (state.source.refresh is LoadState.NotLoading) View.VISIBLE else View.GONE
+                emptyList.visibility = if (mAdapter.itemCount == 0) View.VISIBLE else View.GONE
+                swipeRefresh.isRefreshing = state.source.refresh is LoadState.Loading
+
+                detectErrorToToast(state)
+            }
+            rv.adapter = mAdapter.withLoadStateHeaderAndFooter(
+                header = MovieLoadStateAdapter { mAdapter.retry() },
+                footer = MovieLoadStateAdapter { mAdapter.retry() }
+            )
+        }
+    }
+
+    private fun detectErrorToToast(state: CombinedLoadStates) {
+        val errorState = state.source.append as? LoadState.Error
+            ?: state.source.prepend as? LoadState.Error
+            ?: state.append as? LoadState.Error
+            ?: state.prepend as? LoadState.Error
+            ?: state.refresh as? LoadState.Error
+        errorState?.let {
+            Toast.makeText(
+                context,
+                "${it.error}",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -71,6 +102,7 @@ class MovieListFragment : BaseFragment<MovieListViewModel, MovieListFragmentBind
         job?.cancel()
         job = lifecycleScope.launch {
             viewModel.getMovieList(prevKey).collectLatest {
+                mBinding.swipeRefresh.isRefreshing = false
                 mAdapter.submitData(it)
             }
         }

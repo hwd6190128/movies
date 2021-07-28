@@ -1,4 +1,4 @@
-package com.example.movies
+package com.example.movies.di
 
 import com.example.movies.data.MovieRepository
 import com.example.movies.net.HttpClient

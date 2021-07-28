@@ -13,10 +13,14 @@ class MovieRepository @Inject constructor(
     private val webservice: Webservice,
 ) : BaseRepository() {
 
-    fun getMovieList(prevKey: Int?): Flow<PagingData<Movie>> {
+    fun getMovieListStream(queryStr: String, prevKey: Int?): Flow<PagingData<Movie>> {
         return Pager(
-            config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = true),
-            pagingSourceFactory = { MoviePagingSource(webservice) }, initialKey = prevKey,
+            initialKey = prevKey,
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = true
+            ),
+            pagingSourceFactory = { MoviePagingSource(webservice, queryStr) },
         ).flow
     }
 }

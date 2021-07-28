@@ -1,6 +1,10 @@
 package com.example.movies.ui.main
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movies.R
+import com.example.movies.databinding.ItemFooterProgressBinding
 import com.example.movies.databinding.ItemMovieBinding
 
 /**
@@ -17,5 +21,16 @@ class MovieViewHolder(binding: ItemMovieBinding, viewModel: MovieListViewModel) 
 
     init {
         itemMoviesBinding?.viewModel = viewModel
+    }
+
+    companion object {
+        fun create(parent: ViewGroup, viewModel: MovieListViewModel): MovieViewHolder {
+            val binding = ItemMovieBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+            return MovieViewHolder(binding, viewModel)
+        }
     }
 }
