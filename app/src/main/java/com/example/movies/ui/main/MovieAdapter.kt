@@ -11,7 +11,7 @@ class MovieAdapter(private val mViewModel: MovieListViewModel) :
     PagingDataAdapter<Movie, MovieViewHolder>(MOVIE_COMPARATOR) {
 
     companion object {
-        private val MOVIE_COMPARATOR = object : DiffUtil.ItemCallback<Movie>() {
+        internal val MOVIE_COMPARATOR = object : DiffUtil.ItemCallback<Movie>() {
             override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
                 oldItem.id == newItem.id
 
