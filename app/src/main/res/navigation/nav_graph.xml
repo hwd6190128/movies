@@ -22,9 +22,9 @@
 
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.movies.ui.detail.DetailFragment"
+        android:name="com.example.movies.ui.detail.MovieDetailFragment"
         android:label="{title}"
-        tools:layout="@layout/detail_fragment">
+        tools:layout="@layout/movie_detail_fragment">
 
         <argument
             android:name="title"

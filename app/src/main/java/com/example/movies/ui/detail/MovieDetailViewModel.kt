@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.movies.base.BaseViewModel
 import com.example.movies.model.Movie
 
-class DetailViewModel : BaseViewModel() {
+class MovieDetailViewModel : BaseViewModel() {
 
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie> = _movie

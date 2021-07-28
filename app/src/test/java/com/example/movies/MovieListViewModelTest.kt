@@ -1,5 +1,6 @@
 package com.example.movies
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -22,14 +23,15 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
-import org.junit.After
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Test
+import org.junit.*
 import org.mockito.Mockito
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MovieListViewModelTest {
+
+    @Rule
+    @JvmField
+    val instantTaskExecutorRule = InstantTaskExecutorRule() // for test LiveData
 
     private val testDispatcher = TestCoroutineDispatcher()
     private val movieFactory = MovieFactory()
@@ -46,6 +48,17 @@ class MovieListViewModelTest {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+    }
+
+    @Test
+    fun `click movie detail`() {
+        val dummyMovie = MovieFactory().createDummyMovie()
+        val movieViewModel = MovieListViewModel(Mockito.mock(MovieRepository::class.java))
+        movieViewModel.onClickMovie(dummyMovie)
+
+        val expected = dummyMovie.id
+        val actual = movieViewModel.movieDetail.value?.getContentIfNotHandled()?.id
+        Assert.assertEquals(expected, actual)
     }
 
     @Test
