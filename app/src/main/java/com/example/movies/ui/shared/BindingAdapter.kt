@@ -1,6 +1,8 @@
 package com.example.movies.ui.shared
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.ImageView
@@ -20,24 +22,20 @@ import com.google.android.flexbox.FlexboxLayout
 
 @BindingAdapter("poster")
 internal fun ImageView.setPoster(path: String?) {
-    path.takeUnless { it.isNullOrEmpty() }?.also { it ->
-        Glide
-            .with(context)
-            .load("$POSTER_URL$POSTER_WIDTH_92$it")
-            .apply(getGlideOption())
-            .into(this)
-    }
+    Glide
+        .with(context)
+        .load("$POSTER_URL$POSTER_WIDTH_92$path")
+        .apply(getGlideOption())
+        .into(this)
 }
 
 @BindingAdapter("backdrop")
 internal fun ImageView.setBackdrop(path: String?) {
-    path.takeUnless { it.isNullOrEmpty() }?.also { it ->
-        Glide
-            .with(context)
-            .load("$POSTER_URL$POSTER_WIDTH_500$it")
-            .apply(getGlideOption())
-            .into(this)
-    }
+    Glide
+        .with(context)
+        .load("$POSTER_URL$POSTER_WIDTH_500$path")
+        .apply(getGlideOption())
+        .into(this)
 }
 
 @BindingAdapter("genres")
@@ -67,8 +65,9 @@ internal fun FlexboxLayout.setGenres(list: List<Int>?) {
 }
 
 private fun getGlideOption() = RequestOptions()
-    .placeholder(R.mipmap.ic_launcher_round)
-    .error(R.mipmap.ic_launcher)
+    .placeholder(R.mipmap.ic_launcher)
+    .error(android.R.drawable.stat_notify_error)
+    .fallback(ColorDrawable(Color.GRAY))
     .diskCacheStrategy(DiskCacheStrategy.ALL)
     .priority(Priority.HIGH)
 
