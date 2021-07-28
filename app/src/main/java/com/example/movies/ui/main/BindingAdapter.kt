@@ -8,9 +8,13 @@ import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.movies.R
 import com.example.movies.model.GENRES
 import com.example.movies.net.POSTER_URL
+
 
 const val POSTER_WIDTH_92 = "/w92"
 const val POSTER_WIDTH_500 = "/w500"
@@ -21,8 +25,7 @@ internal fun ImageView.setPoster(path: String?) {
         Glide
             .with(context)
             .load("$POSTER_URL$POSTER_WIDTH_92$it")
-            .placeholder(R.mipmap.ic_launcher_round)
-            .error(R.mipmap.ic_launcher)
+            .apply(getGlideOption())
             .into(this)
     }
 }
@@ -33,9 +36,7 @@ internal fun ImageView.setBackdrop(path: String?) {
         Glide
             .with(context)
             .load("$POSTER_URL$POSTER_WIDTH_500$it")
-            .centerCrop()
-            .placeholder(R.mipmap.ic_launcher_round)
-            .error(R.mipmap.ic_launcher)
+            .apply(getGlideOption())
             .into(this)
     }
 }
@@ -65,6 +66,12 @@ internal fun LinearLayoutCompat.setGenres(list: List<Int>?) {
         invalidate()
     }
 }
+
+private fun getGlideOption() = RequestOptions()
+    .placeholder(R.mipmap.ic_launcher_round)
+    .error(R.mipmap.ic_launcher)
+    .diskCacheStrategy(DiskCacheStrategy.ALL)
+    .priority(Priority.HIGH)
 
 private fun Int.dpToPx(context: Context): Int {
     val scale: Float = context.resources.displayMetrics.density
