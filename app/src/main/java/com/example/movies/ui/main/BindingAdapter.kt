@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.movies.R
 import com.example.movies.model.GENRES
 import com.example.movies.net.POSTER_URL
+import com.google.android.flexbox.FlexboxLayout
 
 
 const val POSTER_WIDTH_92 = "/w92"
@@ -42,7 +43,7 @@ internal fun ImageView.setBackdrop(path: String?) {
 }
 
 @BindingAdapter("genres")
-internal fun LinearLayoutCompat.setGenres(list: List<Int>?) {
+internal fun FlexboxLayout.setGenres(list: List<Int>?) {
     list?.takeIf { it.isNotEmpty() }?.also { it ->
         it.forEach { genre ->
             val tv = TextView(context)
@@ -58,7 +59,7 @@ internal fun LinearLayoutCompat.setGenres(list: List<Int>?) {
                     LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
                     LinearLayoutCompat.LayoutParams.WRAP_CONTENT
                 ).also {
-                    it.setMargins(0, 0, 8.dpToPx(context), 0)
+                    it.setMargins(0, 8.dpToPx(context), 8.dpToPx(context), 0)
                 }
             }
             addView(tv)
