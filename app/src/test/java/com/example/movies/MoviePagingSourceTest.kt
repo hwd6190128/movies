@@ -3,7 +3,9 @@ package com.example.movies
 import androidx.paging.PagingSource
 import com.example.movies.data.MoviePagingSource
 import com.example.movies.model.API_QUERY_CATEGORY
-import com.example.movies.utils.FakeWebservice
+import com.example.movies.model.MovieResponse
+import com.example.movies.net.API_KEY
+import com.example.movies.net.Webservice
 import com.example.movies.utils.MovieFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,6 +17,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mockito
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MoviePagingSourceTest {
@@ -38,11 +41,20 @@ class MoviePagingSourceTest {
 
     @Test
     fun `load returns page when get movie list successful `() = runBlockingTest(testDispatcher) {
-        val fakeApi = FakeWebservice(fakeMovieList)
-        val pagingSource = MoviePagingSource(fakeApi, API_QUERY_CATEGORY)
+        val mockWebservice = Mockito.mock(Webservice::class.java)
+        Mockito.`when`(mockWebservice.getMovieList(API_KEY, API_QUERY_CATEGORY)).thenReturn(
+            MovieResponse(
+                page = 1,
+                results = fakeMovieList,
+                totalPages = 1,
+                totalResults = 1,
+            )
+        )
+
+        val pagingSource = MoviePagingSource(mockWebservice, API_QUERY_CATEGORY)
 
         val expected = PagingSource.LoadResult.Page(
-            data = listOf(fakeMovieList[0], fakeMovieList[1]),
+            data = fakeMovieList,
             prevKey = null,
             nextKey = null
         )

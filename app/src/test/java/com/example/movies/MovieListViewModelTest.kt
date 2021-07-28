@@ -1,11 +1,18 @@
 package com.example.movies
 
 import androidx.paging.AsyncPagingDataDiffer
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.recyclerview.widget.ListUpdateCallback
+import com.example.movies.data.MoviePagingSource
 import com.example.movies.data.MovieRepository
+import com.example.movies.data.PAGE_SIZE
+import com.example.movies.model.API_QUERY_CATEGORY
+import com.example.movies.model.MovieResponse
+import com.example.movies.net.API_KEY
+import com.example.movies.net.Webservice
 import com.example.movies.ui.main.MovieAdapter
 import com.example.movies.ui.main.MovieListViewModel
-import com.example.movies.utils.FakeWebservice
 import com.example.movies.utils.MovieFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,6 +26,7 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mockito
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MovieListViewModelTest {
@@ -43,6 +51,34 @@ class MovieListViewModelTest {
     @Test
     fun `get movie list`() = runBlockingTest(testDispatcher) {
 
+        // mock Webservice for create MoviePagingSource.
+        val mockWebservice = Mockito.mock(Webservice::class.java)
+        Mockito.`when`(mockWebservice.getMovieList(API_KEY, API_QUERY_CATEGORY)).thenReturn(
+            MovieResponse(
+                page = 1,
+                results = fakeMovieList,
+                totalPages = 1,
+                totalResults = 1,
+            )
+        )
+
+        // create moviePagingSource for mock MovieRepository.
+        val pagingSource = MoviePagingSource(mockWebservice, API_QUERY_CATEGORY)
+
+        // mock movieRepository for create MovieListViewModel.
+        val mockRepo = Mockito.mock(MovieRepository::class.java)
+        Mockito.`when`(mockRepo.getMovieListStream(API_QUERY_CATEGORY, null)).thenReturn(
+            Pager(
+                config = PagingConfig(
+                    pageSize = PAGE_SIZE,
+                    enablePlaceholders = true
+                ),
+                pagingSourceFactory = { pagingSource },
+            ).flow
+        )
+
+        val movieViewModel = MovieListViewModel(mockRepo)
+
         val differ = AsyncPagingDataDiffer(
             diffCallback = MovieAdapter.MOVIE_COMPARATOR,
             updateCallback = noopListUpdateCallback,
@@ -50,12 +86,7 @@ class MovieListViewModelTest {
             workerDispatcher = testDispatcher,
         )
 
-        val fakeApi = FakeWebservice(fakeMovieList)
-        val repo = MovieRepository(fakeApi)
-        val movieViewModel = MovieListViewModel(repo)
-
-        // submitData allows differ to receive data from PagingData, but suspends until
-        // invalidation, so we must launch this in a separate job.
+        // submitData allows differ to receive data from PagingData
         val job = launch {
             movieViewModel.getMovieList().collectLatest { pagingData ->
                 differ.submitData(pagingData)
@@ -67,7 +98,6 @@ class MovieListViewModelTest {
 
         Assert.assertEquals(fakeMovieList, differ.snapshot())
 
-        // runBlockingTest checks for leaking jobs, so we have to cancel the one we started.
         job.cancel()
     }
 

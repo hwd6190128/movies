@@ -8,9 +8,9 @@ interface Webservice {
 
     @GET("/3/search/movie")
     suspend fun getMovieList(
-        @Query("api_key") apiKey: String,
-        @Query("query") query: String,
-        @Query("page") page: Int
+        @Query("api_key") apiKey: String = "",
+        @Query("query") query: String = "",
+        @Query("page") page: Int = 1
     ): MovieResponse
 
 }
