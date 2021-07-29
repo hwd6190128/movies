@@ -11,6 +11,8 @@ class MovieDetailFragment : BaseFragment<MovieViewModel, MovieDetailFragmentBind
 
     override fun getViewModelClass() = MovieViewModel::class.java
 
+    override fun getViewModelStoreOwner() = requireActivity()
+
     override fun initObserve() {
         super.initObserve()
         binding.vm = viewModel

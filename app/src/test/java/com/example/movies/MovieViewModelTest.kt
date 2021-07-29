@@ -51,7 +51,7 @@ class MovieViewModelTest {
     }
 
     @Test
-    fun `click movie detail`() {
+    fun `click movie list item to go movie detail`() {
         val dummyMovie = MovieFactory().createDummyMovie()
         val movieViewModel = MovieViewModel(Mockito.mock(MovieRepository::class.java))
         movieViewModel.onClickMovie(dummyMovie)

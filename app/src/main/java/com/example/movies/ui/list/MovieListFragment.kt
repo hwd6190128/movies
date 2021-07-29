@@ -24,6 +24,8 @@ class MovieListFragment : BaseFragment<MovieViewModel, MovieListFragmentBinding>
 
     override fun getViewModelClass() = MovieViewModel::class.java
 
+    override fun getViewModelStoreOwner() = requireActivity()
+
     private lateinit var adapter: MovieListAdapter
 
     private var job: Job? = null
