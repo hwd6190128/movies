@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="vm"
+            type="com.example.movies.ui.shared.MovieViewModel" />
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -11,14 +18,14 @@
             android:id="@+id/detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="16dp"
+            android:paddingVertical="@dimen/margin_common_16dp"
             tools:context=".ui.list.MovieListFragment">
 
             <com.google.android.flexbox.FlexboxLayout
                 android:id="@+id/rv_genres"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_genres_top"
                 app:flexWrap="wrap"
                 app:genres="@{vm.selectedMovie.genreIds}"
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
@@ -28,8 +35,8 @@
             <ImageView
                 android:id="@+id/iv_backdrop"
                 android:layout_width="0dp"
-                android:layout_height="240dp"
-                android:layout_marginTop="16dp"
+                android:layout_height="@dimen/height_movie_backdrop"
+                android:layout_marginTop="@dimen/margin_common_16dp"
                 android:contentDescription="@string/app_name"
                 app:backdrop="@{vm.selectedMovie.backdropPath}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +47,7 @@
                 android:id="@+id/tv_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_common_8dp"
                 android:text="@{vm.selectedMovie.info}"
                 app:layout_constraintEnd_toEndOf="@+id/tv_title"
                 app:layout_constraintStart_toStartOf="@+id/tv_title"
@@ -50,10 +57,10 @@
                 android:id="@+id/tv_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
+                android:layout_marginHorizontal="@dimen/margin_common_16dp"
                 android:text="@{vm.selectedMovie.title}"
                 android:textColor="@android:color/white"
-                android:textSize="26sp"
+                android:textSize="@dimen/text_size_title_detail"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -71,11 +78,11 @@
                 android:id="@+id/tv_overview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/margin_overview_top"
                 android:lineSpacingMultiplier="1.2"
                 android:text="@{vm.selectedMovie.overview}"
                 android:textColor="@android:color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_medium"
                 app:layout_constraintEnd_toEndOf="@id/tv_title"
                 app:layout_constraintStart_toStartOf="@+id/tv_title"
                 app:layout_constraintTop_toBottomOf="@+id/rv_genres" />
@@ -84,12 +91,12 @@
                 android:id="@+id/tv_ranking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:drawablePadding="4dp"
+                android:layout_marginTop="@dimen/margin_ranking_top"
+                android:drawablePadding="@dimen/padding_drawable"
                 android:gravity="start|center_vertical"
                 android:text="@{vm.selectedMovie.ranking}"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_size_ranking"
                 android:textStyle="bold"
                 app:drawableLeftCompat="@drawable/outline_star_white_20"
                 app:drawableStartCompat="@drawable/outline_star_white_20"
@@ -110,13 +117,13 @@
                 android:id="@+id/tv_popularity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
-                android:drawablePadding="4dp"
+                android:layout_marginStart="@dimen/margin_common_16dp"
+                android:layout_marginLeft="@dimen/margin_common_16dp"
+                android:drawablePadding="@dimen/padding_drawable"
                 android:gravity="start|center_vertical"
                 android:text="@{vm.selectedMovie.popularIdx}"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_size_ranking"
                 app:drawableLeftCompat="@drawable/baseline_local_fire_department_white_20"
                 app:drawableStartCompat="@drawable/baseline_local_fire_department_white_20"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_ranking"
@@ -126,12 +133,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
-    <data>
-
-        <variable
-            name="vm"
-            type="com.example.movies.ui.shared.MovieViewModel" />
-    </data>
 
 </layout>

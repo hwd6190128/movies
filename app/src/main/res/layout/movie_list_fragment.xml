@@ -3,6 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.example.movies.ui.shared.MovieViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
@@ -35,7 +44,7 @@
             android:gravity="center"
             android:text="@string/no_results"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="@dimen/text_size_large"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,13 +53,4 @@
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="vm"
-            type="com.example.movies.ui.shared.MovieViewModel" />
-    </data>
 </layout>

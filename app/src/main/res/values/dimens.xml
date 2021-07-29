@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="elevation_toolbar">4dp</dimen>
+    <dimen name="corners_radius_genres">4dp</dimen>
+
+    <!--  margin/padding  -->
+    <dimen name="margin_common_16dp">16dp</dimen>
+    <dimen name="margin_common_8dp">8dp</dimen>
+    <dimen name="margin_genres_top">10dp</dimen>
+    <dimen name="margin_overview_top">20dp</dimen>
+    <dimen name="margin_ranking_top">24dp</dimen>
+    <dimen name="padding_drawable">4dp</dimen>
+
+    <!--  width  -->
+    <dimen name="width_movie_item">165dp</dimen>
+    <dimen name="width_stroke_genres">1dp</dimen>
+    <dimen name="width_movie_item_poster">100dp</dimen>
+
+    <!--  height  -->
+    <dimen name="height_movie_item_divider">1dp</dimen>
+    <dimen name="height_movie_backdrop">240dp</dimen>
+
+    <!--  text size  -->
+    <dimen name="text_size_micro">12sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_large">22sp</dimen>
+    <dimen name="text_size_ranking">16sp</dimen>
+    <dimen name="text_size_title_detail">26sp</dimen>
+
+</resources>
